@@ -1,0 +1,17 @@
+POST http://localhost:8080/api/v1/contacts/add-contact
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "phoneNumber": 324543263,
+ "addressRequestDto": {
+   "streetNumber": "10A",
+   "streetName": "Uwagbue street",
+   "postalCode": "100276",
+   "state": "Lagos",
+   "country": "Nigeria"
+ }
+}
+
+###
