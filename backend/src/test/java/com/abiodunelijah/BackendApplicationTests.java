@@ -1,4 +1,4 @@
-package com.abiodunelijah.backend;
+package com.abiodunelijah;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
