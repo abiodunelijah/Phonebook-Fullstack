@@ -1,12 +1,11 @@
 package com.abiodunelijah.contact.dtos;
 
 import com.abiodunelijah.contact.entities.Address;
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 @Data
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class ContactRequestDto {
 

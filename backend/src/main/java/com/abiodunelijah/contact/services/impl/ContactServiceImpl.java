@@ -5,7 +5,6 @@ import com.abiodunelijah.contact.entities.Contact;
 import com.abiodunelijah.contact.mappers.ContactMapper;
 import com.abiodunelijah.contact.repositories.ContactRepository;
 import com.abiodunelijah.contact.services.ContactService;
-import com.abiodunelijah.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,15 +12,21 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ContactServiceImpl implements ContactService {
 
-    private ContactRepository contactRepository;
+    private final ContactRepository contactRepository;
 
     @Override
     public ContactRequestDto addContact(ContactRequestDto contactRequestDto) {
+        boolean existedContactByPhoneNumber = contactRepository
+                .existsContactByPhoneNumber(contactRequestDto.getPhoneNumber());
 
-        boolean existedContactByPhoneNumber = contactRepository.existsContactByPhoneNumber(contactRequestDto.getPhoneNumber());
+        if (existedContactByPhoneNumber) {
+            throw new RuntimeException("Contact with phone number " +
+                    contactRequestDto.getPhoneNumber() + " already exists");
+        }
 
-        Contact contact = ContactMapper.mapToDto(contactRequestDto);
+        Contact contact = ContactMapper.mapToEntity(contactRequestDto);
+        Contact savedContact = contactRepository.save(contact);
 
-        return ContactMapper.mapToEntity(contact);
+        return ContactMapper.mapToDto(savedContact);
     }
 }
