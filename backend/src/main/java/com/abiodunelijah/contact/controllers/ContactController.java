@@ -5,10 +5,9 @@ import com.abiodunelijah.contact.services.ContactService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,5 +20,11 @@ public class ContactController {
     public ResponseEntity<ContactRequestDto> addContact(@RequestBody ContactRequestDto contactRequestDto){
         ContactRequestDto contactRequest = contactService.addContact(contactRequestDto);
         return new ResponseEntity<>(contactRequest, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/all-contacts")
+    public ResponseEntity<List<ContactRequestDto>> getAllContacts(){
+        List<ContactRequestDto> allContacts = contactService.getAllContacts();
+        return new ResponseEntity<>(allContacts, HttpStatus.OK);
     }
 }

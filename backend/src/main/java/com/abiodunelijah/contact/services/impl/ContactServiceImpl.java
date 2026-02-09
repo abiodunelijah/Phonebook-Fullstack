@@ -8,6 +8,8 @@ import com.abiodunelijah.contact.services.ContactService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ContactServiceImpl implements ContactService {
@@ -28,5 +30,13 @@ public class ContactServiceImpl implements ContactService {
         Contact savedContact = contactRepository.save(contact);
 
         return ContactMapper.mapToDto(savedContact);
+    }
+
+    @Override
+    public List<ContactRequestDto> getAllContacts() {
+        List<Contact> allContacts = contactRepository.findAll();
+        return allContacts.stream()
+                .map(ContactMapper::mapToDto)
+                .toList();
     }
 }
