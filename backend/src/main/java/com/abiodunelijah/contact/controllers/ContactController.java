@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/api/v1/contacts")
 public class ContactController {
 
-    private ContactService contactService;
+    private final ContactService contactService;
 
     @PostMapping("/add-contact")
     public ResponseEntity<ContactRequestDto> addContact(@RequestBody ContactRequestDto contactRequestDto){
