@@ -26,6 +26,7 @@ public class Contact {
     private Integer phoneNumber;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "addressId", referencedColumnName = "id")
     private Address address;
 
 }
