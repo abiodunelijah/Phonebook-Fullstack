@@ -1,6 +1,7 @@
 package com.abiodunelijah.contact.controllers;
 
 import com.abiodunelijah.contact.dtos.ContactRequestDto;
+import com.abiodunelijah.contact.dtos.ContactSearchDto;
 import com.abiodunelijah.contact.services.ContactService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -38,5 +39,17 @@ public class ContactController {
     public ResponseEntity<ContactRequestDto> updateContact(@PathVariable("id") Integer contactId, @RequestBody ContactRequestDto contactRequestDto){
         ContactRequestDto contactRequest = contactService.updateContact(contactId, contactRequestDto);
         return new ResponseEntity<>(contactRequest, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete-contact/{id}")
+    public ResponseEntity<String> deleteContact(@PathVariable("id") Integer contactId){
+        contactService.deleteContact(contactId);
+        return new ResponseEntity<>("Contact deleted successfully", HttpStatus.OK);
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<List<ContactSearchDto>> searchContacts(@RequestBody ContactSearchDto searchDto){
+        List<ContactSearchDto> contacts = contactService.searchContacts(searchDto);
+        return new ResponseEntity<>(contacts, HttpStatus.OK);
     }
 }
