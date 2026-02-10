@@ -9,4 +9,6 @@ public interface ContactService {
 
     ContactRequestDto addContact(ContactRequestDto contactRequestDto );
     List<ContactRequestDto> getAllContacts();
+    ContactRequestDto getContact(Integer contactId);
+    ContactRequestDto updateContact(ContactRequestDto contactRequestDto);
 }

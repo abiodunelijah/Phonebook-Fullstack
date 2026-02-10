@@ -27,4 +27,16 @@ public class ContactController {
         List<ContactRequestDto> allContacts = contactService.getAllContacts();
         return new ResponseEntity<>(allContacts, HttpStatus.OK);
     }
+
+    @GetMapping("/get-contact/{id}")
+    public ResponseEntity<ContactRequestDto> getContact(@PathVariable Integer id){
+        ContactRequestDto contactRequestDto = contactService.getContact(id);
+        return new ResponseEntity<>(contactRequestDto, HttpStatus.OK);
+    }
+
+    @PutMapping("/update-contact/{id}")
+    public ResponseEntity<ContactRequestDto> updateContact(@PathVariable("id") Integer contactId, @RequestBody ContactRequestDto contactRequestDto){
+        ContactRequestDto contactRequest = contactService.updateContact(contactId, contactRequestDto);
+        return new ResponseEntity<>(contactRequest, HttpStatus.OK);
+    }
 }
