@@ -3,6 +3,7 @@ package com.abiodunelijah.contact.controllers;
 import com.abiodunelijah.contact.dtos.ContactRequestDto;
 import com.abiodunelijah.contact.dtos.ContactSearchDto;
 import com.abiodunelijah.contact.services.ContactService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class ContactController {
     private final ContactService contactService;
 
     @PostMapping("/add-contact")
-    public ResponseEntity<ContactRequestDto> addContact(@RequestBody ContactRequestDto contactRequestDto){
+    public ResponseEntity<ContactRequestDto> addContact(@Valid @RequestBody ContactRequestDto contactRequestDto){
         ContactRequestDto contactRequest = contactService.addContact(contactRequestDto);
         return new ResponseEntity<>(contactRequest, HttpStatus.CREATED);
     }

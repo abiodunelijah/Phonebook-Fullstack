@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -53,7 +54,7 @@ public class ContactServiceImpl implements ContactService {
     @Override
     public ContactRequestDto getContact(Integer contactId) {
         Contact contactByPhoneNumber = contactRepository.findById(contactId)
-                .orElseThrow(()-> new NotFoundException("contact by with" + contactId+ " does not exist"));
+                .orElseThrow(()-> new NotFoundException("contact by with " + contactId + " does not exist"));
         return ContactMapper.mapToDto(contactByPhoneNumber);
     }
 
@@ -84,6 +85,7 @@ public class ContactServiceImpl implements ContactService {
 
         return ContactMapper.mapToDto(savedContact);
     }
+    
     @Override
     public void deleteContact(Integer contactId) {
         Contact existingContact = contactRepository.findById(contactId)
@@ -178,7 +180,21 @@ public class ContactServiceImpl implements ContactService {
                 criteriaBuilder.asc(contactRoot.get("firstName"))
         );
 
-        return entityManager.createQuery(criteriaQuery).getResultList();
+        // Execute query and map Contact entities to ContactSearchDto
+        List<Contact> contacts = entityManager.createQuery(criteriaQuery).getResultList();
+        
+        return contacts.stream()
+                .map(contact -> ContactSearchDto.builder()
+                        .firstName(contact.getFirstName())
+                        .lastName(contact.getLastName())
+                        .phoneNumber(Integer.valueOf(contact.getPhoneNumber()))
+                        .streetNumber(contact.getAddress() != null ? contact.getAddress().getStreetNumber() : null)
+                        .streetName(contact.getAddress() != null ? contact.getAddress().getStreetName() : null)
+                        .postalCode(contact.getAddress() != null ? contact.getAddress().getPostalCode() : null)
+                        .state(contact.getAddress() != null ? contact.getAddress().getState() : null)
+                        .country(contact.getAddress() != null ? contact.getAddress().getCountry() : null)
+                        .build())
+                .collect(Collectors.toList());
     }
 
 }

@@ -1,6 +1,5 @@
 package com.abiodunelijah.contact.entities;
 
-import com.abiodunelijah.contact.dtos.AddressRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,7 +10,7 @@ import lombok.*;
 @Builder
 @Getter
 @Setter
-public class Address extends AddressRequestDto {
+public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
