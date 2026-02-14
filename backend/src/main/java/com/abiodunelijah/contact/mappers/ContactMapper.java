@@ -20,6 +20,7 @@ public class ContactMapper {
         }
 
         return ContactRequestDto.builder()
+                .id(contact.getId())
                 .firstName(contact.getFirstName())
                 .lastName(contact.getLastName())
                 .phoneNumber(contact.getPhoneNumber())
@@ -41,6 +42,7 @@ public class ContactMapper {
         }
 
         return Contact.builder()
+                .id(contactRequestDto.getId())
                 .firstName(contactRequestDto.getFirstName())
                 .lastName(contactRequestDto.getLastName())
                 .phoneNumber(contactRequestDto.getPhoneNumber())

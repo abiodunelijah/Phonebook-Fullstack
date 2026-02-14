@@ -1,9 +1,21 @@
-POST http://localhost:8080/api/v1/contacts/search
+PUT http://localhost:8080/api/v1/contacts/update-contact/1
 Content-Type: application/json
 
 {
-  "lastName": "mark"
+   "firstName": "Natasa",
+  "lastName": "Eva",
+  "phoneNumber": "4543398739"
 }
+
+###
+DELETE http://localhost:8080/api/v1/contacts/delete-contact/
+Accept: application/json
+
+###
+GET http://localhost:8080/api/v1/contacts/search?firstName=mark
+Accept: application/json
+
+###
 
 ###
 PUT http://localhost:8080/api/v1/contacts/update-contact

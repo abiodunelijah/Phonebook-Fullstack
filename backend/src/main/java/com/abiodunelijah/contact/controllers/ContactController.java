@@ -1,7 +1,6 @@
 package com.abiodunelijah.contact.controllers;
 
 import com.abiodunelijah.contact.dtos.ContactRequestDto;
-import com.abiodunelijah.contact.dtos.ContactSearchDto;
 import com.abiodunelijah.contact.services.ContactService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -48,9 +47,12 @@ public class ContactController {
         return new ResponseEntity<>("Contact deleted successfully", HttpStatus.OK);
     }
 
-    @PostMapping("/search")
-    public ResponseEntity<List<ContactSearchDto>> searchContacts(@RequestBody ContactSearchDto searchDto){
-        List<ContactSearchDto> contacts = contactService.searchContacts(searchDto);
+    @GetMapping("/search")
+    //url http://localhost:8080/api/v1/contacts/search?firstName=john&lastName=Doe
+    public ResponseEntity<List<ContactRequestDto>> searchContacts(@RequestParam(required = false) String firstName,
+                                                                  @RequestParam(required = false) String lastName,
+                                                                  @RequestParam(required = false)String phoneNumber){
+        List<ContactRequestDto> contacts = contactService.searchContacts(firstName, lastName, phoneNumber);
         return new ResponseEntity<>(contacts, HttpStatus.OK);
     }
 }

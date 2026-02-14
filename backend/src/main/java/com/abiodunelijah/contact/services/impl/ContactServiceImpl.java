@@ -1,7 +1,6 @@
 package com.abiodunelijah.contact.services.impl;
 
 import com.abiodunelijah.contact.dtos.ContactRequestDto;
-import com.abiodunelijah.contact.dtos.ContactSearchDto;
 import com.abiodunelijah.contact.entities.Address;
 import com.abiodunelijah.contact.entities.Contact;
 import com.abiodunelijah.contact.mappers.ContactMapper;
@@ -95,77 +94,34 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    public List<ContactSearchDto> searchContacts(ContactSearchDto searchDto) {
+    public List<ContactRequestDto> searchContacts(String firstName,String lastName, String phoneNumber) {
+
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Contact> criteriaQuery = criteriaBuilder.createQuery(Contact.class);
         Root<Contact> contactRoot = criteriaQuery.from(Contact.class);
-
-        // Join with Address entity for address-related searches
-        Join<Contact, Address> addressJoin = contactRoot.join("address", JoinType.LEFT);
-
         List<Predicate> predicates = new ArrayList<>();
 
         // Search by firstName (case-insensitive, partial match)
-        if (searchDto.getFirstName() != null && !searchDto.getFirstName().isEmpty()) {
+        if (firstName != null && !firstName.isEmpty()) {
             predicates.add(criteriaBuilder.like(
                     criteriaBuilder.lower(contactRoot.get("firstName")),
-                    "%" + searchDto.getFirstName().toLowerCase() + "%"
+                    "%" + firstName.toLowerCase() + "%"
             ));
         }
 
         // Search by lastName (case-insensitive, partial match)
-        if (searchDto.getLastName() != null && !searchDto.getLastName().isEmpty()) {
+        if (lastName!= null && !lastName.isEmpty()) {
             predicates.add(criteriaBuilder.like(
                     criteriaBuilder.lower(contactRoot.get("lastName")),
-                    "%" + searchDto.getLastName().toLowerCase() + "%"
+                    "%" + lastName.toLowerCase() + "%"
             ));
         }
 
         // Search by phoneNumber (exact match)
-        if (searchDto.getPhoneNumber() != null) {
+        if (phoneNumber != null) {
             predicates.add(criteriaBuilder.equal(
                     contactRoot.get("phoneNumber"),
-                    searchDto.getPhoneNumber()
-            ));
-        }
-
-        // Search by streetNumber (case-insensitive, partial match)
-        if (searchDto.getStreetNumber() != null && !searchDto.getStreetNumber().isEmpty()) {
-            predicates.add(criteriaBuilder.like(
-                    criteriaBuilder.lower(addressJoin.get("streetNumber")),
-                    "%" + searchDto.getStreetNumber().toLowerCase() + "%"
-            ));
-        }
-
-        // Search by streetName (case-insensitive, partial match)
-        if (searchDto.getStreetName() != null && !searchDto.getStreetName().isEmpty()) {
-            predicates.add(criteriaBuilder.like(
-                    criteriaBuilder.lower(addressJoin.get("streetName")),
-                    "%" + searchDto.getStreetName().toLowerCase() + "%"
-            ));
-        }
-
-        // Search by postalCode (case-insensitive, partial match)
-        if (searchDto.getPostalCode() != null && !searchDto.getPostalCode().isEmpty()) {
-            predicates.add(criteriaBuilder.like(
-                    criteriaBuilder.lower(addressJoin.get("postalCode")),
-                    "%" + searchDto.getPostalCode().toLowerCase() + "%"
-            ));
-        }
-
-        // Search by state (case-insensitive, partial match)
-        if (searchDto.getState() != null && !searchDto.getState().isEmpty()) {
-            predicates.add(criteriaBuilder.like(
-                    criteriaBuilder.lower(addressJoin.get("state")),
-                    "%" + searchDto.getState().toLowerCase() + "%"
-            ));
-        }
-
-        // Search by country (case-insensitive, partial match)
-        if (searchDto.getCountry() != null && !searchDto.getCountry().isEmpty()) {
-            predicates.add(criteriaBuilder.like(
-                    criteriaBuilder.lower(addressJoin.get("country")),
-                    "%" + searchDto.getCountry().toLowerCase() + "%"
+                    phoneNumber
             ));
         }
 
@@ -184,15 +140,10 @@ public class ContactServiceImpl implements ContactService {
         List<Contact> contacts = entityManager.createQuery(criteriaQuery).getResultList();
         
         return contacts.stream()
-                .map(contact -> ContactSearchDto.builder()
+                .map(contact -> ContactRequestDto.builder()
                         .firstName(contact.getFirstName())
                         .lastName(contact.getLastName())
-                        .phoneNumber(Integer.valueOf(contact.getPhoneNumber()))
-                        .streetNumber(contact.getAddress() != null ? contact.getAddress().getStreetNumber() : null)
-                        .streetName(contact.getAddress() != null ? contact.getAddress().getStreetName() : null)
-                        .postalCode(contact.getAddress() != null ? contact.getAddress().getPostalCode() : null)
-                        .state(contact.getAddress() != null ? contact.getAddress().getState() : null)
-                        .country(contact.getAddress() != null ? contact.getAddress().getCountry() : null)
+                        .phoneNumber(contact.getPhoneNumber())
                         .build())
                 .collect(Collectors.toList());
     }
