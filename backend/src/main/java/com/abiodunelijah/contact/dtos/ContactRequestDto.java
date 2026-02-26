@@ -18,10 +18,10 @@ public class ContactRequestDto {
     @NotBlank(message = "First name is required")
     private String firstName;
 
-    @NotBlank(message = "Last name is required")
     private String lastName;
 
-    @Pattern(regexp = "^\\+?[0-9]{10,15}$", message = "Invalid phone number")
+    @NotBlank(message = "Phone number is required")
+    @Pattern(regexp = "^[+]?[(]?[0-9]{3}[)]?[-\\s]?[0-9]{3}[-\\s]?[0-9]{4,5}$|^[0-9]{10,15}$", message = "Invalid phone number format")
     private String phoneNumber;
 
     private AddressRequestDto addressRequestDto;

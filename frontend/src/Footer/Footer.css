@@ -1,0 +1,40 @@
+.phonebook-footer {
+  width: 100%;
+  margin-top: auto;
+  padding: 2rem 1rem;
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.02) 100%);
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.footer-content {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.footer-text {
+  font-size: 0.95rem;
+  color: #718096;
+  font-weight: 500;
+}
+
+.footer-credit {
+  font-size: 0.85rem;
+  color: #a0aec0;
+  font-weight: 400;
+}
+
+@media (max-width: 480px) {
+  .phonebook-footer {
+    padding: 1.5rem 1rem;
+  }
+
+  .footer-text,
+  .footer-credit {
+    font-size: 0.9rem;
+  }
+}
+
